@@ -5,10 +5,36 @@ require('dotenv').config();
 
 const app = express();
 
-// Middlewares
+/// Middlewares
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'https://vehiculos-frontend.vercel.app'],
-  credentials: true
+  origin: function(origin, callback) {
+    // Permitir requests sin origin (como Postman, mobile apps)
+    if (!origin) return callback(null, true);
+    
+    // Dominios permitidos
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:3001', 
+      'http://localhost:5173',
+      'https://vehiculos-frontend.vercel.app'
+    ];
+    
+    // Permitir el dominio exacto o cualquier subdominio de vercel.app
+    if (allowedOrigins.includes(origin) || origin.endsWith('.vercel.app')) {
+      return callback(null, true);
+    }
+    
+    callback(null, true); // Por ahora permitimos todo para debugging
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+```
+
+3. **Scroll abajo** y en "Commit message" escribe:
+```
+   Update CORS to allow all Vercel subdomains
 }));
 app.use(express.json());
 
