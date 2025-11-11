@@ -39,7 +39,7 @@ app.use('/api/registros', registrosRoutes);
 
 // Test route
 app.get('/', (req, res) => {
-  res.json({ mensaje: 'API de Vehiculos funcionando correctamente' });
+  res.json({ mensaje: 'API de Vehiculos - MongoDB Connected ✅' });
 });
 
 // MongoDB connection
